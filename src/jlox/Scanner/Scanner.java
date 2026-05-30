@@ -1,5 +1,5 @@
+package jlox.Scanner;
 import java.util.ArrayList;
-import static TokenType.*;
 
 
 class Scanner {
@@ -9,4 +9,6 @@ class Scanner {
     Scanner(String source) {
         this.source = source;
     }
+
+
 }

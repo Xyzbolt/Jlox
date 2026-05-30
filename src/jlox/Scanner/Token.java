@@ -1,3 +1,4 @@
+package jlox.Scanner;
 class Token {
   final TokenType type;
   final String lexeme;

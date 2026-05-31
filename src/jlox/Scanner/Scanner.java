@@ -44,6 +44,15 @@ class Scanner {
         if (isAtEnd()) return '\0';
         return source.charAt(current);
     }
+
+    private char peekNext() {
+        if (current+1 >= source.length()) return '\0';
+        return source.charAt(current+1);
+    }
+
+    private boolean isDigit(char c) {
+        return c >= '0' && c <= '9';
+    }
     
     private void string() {
         while (peek() != '"' && !isAtEnd()) {
@@ -60,6 +69,22 @@ class Scanner {
         String value = source.substring(start + 1, current -1);
         addToken(STRING, value);
     }
+
+    private void number() {
+        while (isDigit(peek())) advance();
+        
+
+        if (peek() == '.' && isDigit(peekNext()))
+        {
+            advance();
+            while (isDigit(peek())) advance();
+        }
+        
+        // try: writing a parser to double 
+        Double value = Double.valueOf(source.substring(start, current));
+        addToken(NUMBER, value);
+    }
+
 
     List<Token> scanTokens() {
         while (!isAtEnd()) {
@@ -99,7 +124,15 @@ class Scanner {
             case ' ', '\r', '\t' -> {}
             case '\n' -> line++;
             case '"' -> string();
-            default -> Lox.error(line, "Unexpected Character.");
+            default -> { 
+                if (isDigit(c)) {
+                    number();
+                }
+                else {
+                Lox.error(line, "Unexpected Character."); 
+                }
+                }
+
         }
     }
 }

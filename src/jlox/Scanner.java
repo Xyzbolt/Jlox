@@ -1,12 +1,12 @@
-package jlox.Scanner;
+package jlox;
+import static jlox.TokenType.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import jlox.Lox;
-import static jlox.Scanner.TokenType.*;
 
-class Scanner {
+public class Scanner {
     private String source;
     private final List<Token> tokens = new ArrayList<>();
     private int current = 0;
@@ -127,7 +127,7 @@ class Scanner {
     }
 
 
-    List<Token> scanTokens() {
+    public List<Token> scanTokens() {
         while (!isAtEnd()) {
             start = current;
             scanToken();

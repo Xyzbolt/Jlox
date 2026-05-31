@@ -7,9 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import jlox.Scanner.Scanner;
-import jlox.Scanner.Token;
-
 public class Lox {
     static boolean hadError = false;
   public static void main(String[] args) throws IOException {
@@ -57,7 +54,7 @@ private static void runFile(String path) throws IOException {
     }
   }
 
-  static void error(int line, String message) {
+  public static void error(int line, String message) {
     report(line, "", message);
   }
 

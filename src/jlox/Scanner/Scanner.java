@@ -15,12 +15,28 @@ class Scanner {
         this.source = source;
     }
 
+    private boolean match(char expected) {
+        if (isAtEnd()) return false;
+        if (source.charAt(current) != expected) return false;
+        
+        current++;
+        return true;
+    } 
+
     private boolean isAtEnd() {
         return current >= source.length();
     }
 
-    private char advance() {
-    return source.charAt(current++);
+    private boolean isDigit(char c) {
+        return c >= '0' && c <= '9';
+    }
+
+    private boolean isAlpha(char c) {
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+    }
+
+    private boolean isAlphaNumeric(char c) {
+        return isDigit(c) || isAlpha(c);
     }
 
     private void addToken(TokenType type) {
@@ -32,13 +48,9 @@ class Scanner {
     tokens.add(new Token(type, text, literal, line));
     }
 
-    private boolean match(char expected) {
-        if (isAtEnd()) return false;
-        if (source.charAt(current) != expected) return false;
-        
-        current++;
-        return true;
-    } 
+    private char advance() {
+    return source.charAt(current++);
+    }
 
     private char peek() {
         if (isAtEnd()) return '\0';
@@ -48,10 +60,6 @@ class Scanner {
     private char peekNext() {
         if (current+1 >= source.length()) return '\0';
         return source.charAt(current+1);
-    }
-
-    private boolean isDigit(char c) {
-        return c >= '0' && c <= '9';
     }
     
     private void string() {
@@ -83,6 +91,12 @@ class Scanner {
         // try: writing a parser to double 
         Double value = Double.valueOf(source.substring(start, current));
         addToken(NUMBER, value);
+    }
+
+    private void identifier() {
+        while(isAlphaNumeric(peek())) advance();
+
+        addToken(IDENTIFIER);
     }
 
 
@@ -127,6 +141,8 @@ class Scanner {
             default -> { 
                 if (isDigit(c)) {
                     number();
+                } else if (isAlpha(c)) {
+                   identifier();
                 }
                 else {
                 Lox.error(line, "Unexpected Character."); 

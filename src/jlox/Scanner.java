@@ -1,13 +1,12 @@
 package jlox;
-import static jlox.TokenType.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import static jlox.TokenType.*;
 
 public class Scanner {
-    private String source;
+    private final String source;
     private final List<Token> tokens = new ArrayList<>();
     private int current = 0;
     private int start = 0;

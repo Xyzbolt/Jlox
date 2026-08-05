@@ -10,29 +10,6 @@ abstract class Expr {
   }
 
 
-  class ReversePolish implements Visitor {
-
-    @Override
-    public String visitBinaryExpr(Binary expr) {
-      return expr.left.toString() + expr.right.toString() + expr.operator.toString();
-    }
-
-    @Override
-    public String visitGroupingExpr(Grouping expr) {
-     return expr.toString();
-    }
-
-    @Override
-    public String visitLiteralExpr(Literal expr) {
-     return expr.toString();
-    }
-
-    @Override
-    public String visitUnaryExpr(Unary expr) {
-      return expr.right.toString() + expr.operator.toString();
-    }
-  }
-
  static class Binary extends Expr {
     Binary(Expr left, Token operator, Expr right) {
       this.left = left;

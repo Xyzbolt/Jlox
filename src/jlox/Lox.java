@@ -48,7 +48,6 @@ private static void runFile(String path) throws IOException {
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
 
-    // For now, just print the tokens.
     for (Token token : tokens) {
       System.out.println(token);
     }
@@ -63,6 +62,14 @@ private static void runFile(String path) throws IOException {
       "[line " + line + "] Error" + where + ": " + message
     );
     hadError = true;
+  }
+
+  public static void error(Token token, String message) {
+    if (token.type == TokenType.EOF) {
+      report(token.line, "at end", message);
+    } else {
+      report(token.line, "at '" + token.lexeme + "'" , message);
+    }
   }
 
 

@@ -15,6 +15,14 @@ class Parser {
     this.tokens = tokens;
   }
 
+  Expr parse() {
+    try {
+    return expression();
+    } catch (ParseError error) {
+    return null;
+  }
+  }
+
   // Infrastructure functions
   private Token peek() {
     return tokens.get(current);
@@ -49,8 +57,7 @@ class Parser {
   }
 
   // Error functions
-  
-
+ 
   private ParseError error(Token token, String message) {
     Lox.error(token, message);
     return new ParseError();
@@ -61,6 +68,31 @@ class Parser {
 
     throw error(peek(), message);
   }
+
+  // TODO: will be used later
+  // private void Synchronize() {
+  //   advance();
+  //
+  //   while (!isAtEnd()) {
+  //     if (previous().type == SEMICOLON) return;
+  //
+  //     switch (peek().type) {
+  //       case CLASS:
+  //       case FUN:
+  //       case VAR:
+  //       case FOR:
+  //       case IF:
+  //       case WHILE:
+  //       case PRINT:
+  //       case RETURN:
+  //       return;
+  //     }
+  //
+  //     advance();
+  //   }
+  // }
+
+  // Precedence functions
 
   private Expr expression() {
     return equality();
@@ -138,6 +170,7 @@ class Parser {
       return new Expr.Grouping(expr);
     }
 
+    throw error(peek(), "Expected an Expression.");
   }
 
 }

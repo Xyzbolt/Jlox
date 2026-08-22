@@ -20,7 +20,6 @@ public class Lox {
     }
   }
 
-
 private static void runFile(String path) throws IOException {
     if (hadError) System.exit(65);
     byte[] bytes = Files.readAllBytes(Paths.get(path));

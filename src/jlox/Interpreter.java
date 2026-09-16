@@ -16,7 +16,12 @@ class Interpreter implements Expr.Visitor<Object> {
     if (left == null && right == null) return true;
     if (left == null) return false;
 
-    return left.equals(right);:
+    return left.equals(right);
+  }
+
+  private void checkNumberOperand(Token operator, Object operand) {
+    if (operand instanceof Double) return;
+    throw new RuntimeError(operator, "operator must be a number");
   }
 
   @Override
@@ -32,6 +37,7 @@ class Interpreter implements Expr.Visitor<Object> {
       case BANG:
         return !isTruthy(right);
       case MINUS:
+        checkNumberOperand(expr.operator, right);
         return -(double)right;
     }
 
